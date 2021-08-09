@@ -5,7 +5,9 @@
   "license": "MIT",
   "dependencies": {
     "@celo/contractkit": "^1.2.4",
+    "@supabase/supabase-js": "^1.21.0",
     "bignumber.js": "^9.0.1",
+    "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1"
   },
   "scripts": {
