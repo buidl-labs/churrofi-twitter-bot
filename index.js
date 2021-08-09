@@ -1,5 +1,5 @@
-const fetchMarketCap = require("./lib/data/market-cap");
+const fetchMarketCapAndPrice = require("./lib/data/celo-market-details");
 
 (async function main() {
-  console.log(await fetchMarketCap());
+  console.log(await fetchMarketCapAndPrice());
 })();
