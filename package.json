@@ -11,7 +11,8 @@
     "bignumber.js": "^9.0.1",
     "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1",
-    "node-html-to-image": "^3.2.0"
+    "node-html-to-image": "^3.2.0",
+    "twit": "^2.2.11"
   },
   "scripts": {
     "start": "node index.js",
