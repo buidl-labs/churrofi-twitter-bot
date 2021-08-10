@@ -6,15 +6,22 @@
   "dependencies": {
     "@celo/contractkit": "^1.2.4",
     "@supabase/supabase-js": "^1.21.0",
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/jit": "^0.1.18",
     "bignumber.js": "^9.0.1",
     "dotenv": "^10.0.0",
     "node-fetch": "^2.6.1"
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "style": "tailwindcss -o templates/style/tailwind.css -w"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "autoprefixer": "^10.3.1",
+    "nodemon": "^2.0.12",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.2.7",
+    "vite": "^2.4.4"
   }
 }
