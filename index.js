@@ -18,7 +18,7 @@ const formatter = new Intl.NumberFormat("en-US");
   await generateTotalRewardImage(totalReward, price);
   await generateMarketCapImage(market_cap);
   await generateTop3CH(top3);
-  await generateTop3VG(vg);
+  await generateTop3VG(vg, price);
   console.log("All images generated, start tweeting.");
   const T = Twit({
     consumer_key: process.env.consumer_key,
