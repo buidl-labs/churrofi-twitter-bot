@@ -10,16 +10,15 @@ const Twit = require("twit");
 const formatter = new Intl.NumberFormat("en-US");
 
 (async function main() {
-  const { totalReward, top3 } = await fetchTotalRewardsAndTop3Holders();
-  const { market_cap, price } = await fetchMarketCapAndPrice();
-  const vg = await fetchTopEarningVGs();
-  console.log("All data fetched, starting image generation.");
+  /* 
+    1 - Monday
+    2 - Tuesday
+    3 - Wednesday
+    4 - Thursday
+    5 - Friday
+  */
+  const day = new Date().getDay();
 
-  await generateTotalRewardImage(totalReward, price);
-  await generateMarketCapImage(market_cap);
-  await generateTop3CH(top3);
-  await generateTop3VG(vg, price);
-  console.log("All images generated, start tweeting.");
   const T = Twit({
     consumer_key: process.env.consumer_key,
     consumer_secret: process.env.consumer_secret,
@@ -27,22 +26,78 @@ const formatter = new Intl.NumberFormat("en-US");
     access_token_secret: process.env.access_token_secret,
   });
 
-  await postImage(
-    T,
-    "Total rewards earned by users through ChurroFi",
-    "total-reward.png"
-  );
-  await postImage(T, "Celo's market cap", "market-cap.png");
-  await postImage(
-    T,
-    "Top 3 Celo users who've made the most yield through ChurroFi in the past week.",
-    "top-3-ch.png"
-  );
-  await postImage(
-    T,
-    "Top 3 earning groups on the Celo network in the past week.",
-    "top-3-vg.png"
-  );
+  if (day == 2) {
+    // Tuesday
+    const { market_cap } = await fetchMarketCapAndPrice();
+    await generateMarketCapImage(market_cap);
+    await postImage(T, "✨ Celo's market cap ✨", "market-cap.png");
+  } else if (day == 3) {
+    // Wednesday
+    const { price } = await fetchMarketCapAndPrice();
+    const vg = await fetchTopEarningVGs();
+
+    await generateTop3VG(vg, price);
+    await postImage(
+      T,
+      "Top 3 earning groups on the Celo network in the past week 🤑",
+      "top-3-vg.png"
+    );
+  } else if (day == 4) {
+    // Thursday
+    const { top3 } = await fetchTotalRewardsAndTop3Holders();
+    await generateTop3CH(top3);
+
+    await postImage(
+      T,
+      "Top 3 @ChurroFi users with the highest earnings last week 🏅 \nStart voting on @CeloOrg through churrofi.app 🎯",
+      "top-3-ch.png"
+    );
+  } else if (day == 5) {
+    // Friday
+    const { price } = await fetchMarketCapAndPrice();
+    const { totalReward } = await fetchTotalRewardsAndTop3Holders();
+    await generateTotalRewardImage(totalReward, price);
+
+    await postImage(
+      T,
+      "💰 Total rewards earned by users through ChurroFi 💰",
+      "total-reward.png"
+    );
+  }
+
+  // const { totalReward, top3 } = await fetchTotalRewardsAndTop3Holders();
+
+  // const vg = await fetchTopEarningVGs();
+  // console.log("All data fetched, starting image generation.");
+
+  // await generateTotalRewardImage(totalReward, price);
+
+  // await generateTop3CH(top3);
+  // await generateTop3VG(vg, price);
+  // console.log("All images generated, start tweeting.");
+  // const T = Twit({
+  //   consumer_key: process.env.consumer_key,
+  //   consumer_secret: process.env.consumer_secret,
+  //   access_token: process.env.access_token,
+  //   access_token_secret: process.env.access_token_secret,
+  // });
+
+  // await postImage(
+  //   T,
+  //   "Total rewards earned by users through ChurroFi",
+  //   "total-reward.png"
+  // );
+  // await postImage(T, "Celo's market cap", "market-cap.png");
+  // await postImage(
+  //   T,
+  //   "Top 3 Celo users who've made the most yield through ChurroFi in the past week.",
+  //   "top-3-ch.png"
+  // );
+  // await postImage(
+  //   T,
+  //   "Top 3 earning groups on the Celo network in the past week.",
+  //   "top-3-vg.png"
+  // );
 })();
 
 async function postImage(T, message, image) {
